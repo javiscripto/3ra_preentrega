@@ -16,15 +16,17 @@ const getAll=async(req,res)=>{
 const getById=async(req, res)=>{
     const cid = req.params.cid
     const cart = await cartService.getById(cid);
-    const products=cart.products
     
-    res.render("cart",{cart, products,cid})
+    const products= cart.products
+    console.log(cart)
+    res.render("cart",{products,cid})
 }
 
 const addProduct= async(req, res)=>{
     const cid= req.params.cid;
     const pid= req.params.pid;
-    const result= await cartService.addProduct(cid,pid);
+    const quantity= Number(req.body.quantity)
+    const result= await cartService.addProduct(cid,pid,quantity);
     res.json(result)
 }
 

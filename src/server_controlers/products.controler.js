@@ -44,14 +44,15 @@ export const getAll=async(req, res)=>{
 
 export const getById= async(req, res)=>{
     try {
-        
+        const cart= req.session.user.cart
         const pid= req.params.pid;
         const product= await productService.getById(pid);
-        res.render("detail",{product})
+        res.render("detail",{product, pid, cart})
     } catch (error) {
         res.status(500).json({ result: "error", message: error.message });
     }
 }
+
 
 
 export const createProduct= async( req, res)=>{

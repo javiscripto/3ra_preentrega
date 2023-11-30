@@ -32,7 +32,7 @@ app.use(session({
     store: MongoStore.create({
         mongoUrl:config.MONGO_URL,
         mongoOptions:{useNewUrlParser: true, useUnifiedTopology:true},
-        ttl:60*60*5,//
+        ttl:60*60*10,//
     }),
     secret:"clave",
     resave: false,
@@ -61,13 +61,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 import productRoute from "./server_routes/products.router.js"
 import cartRoute from "./server_routes/carts.router.js"
 
-import messagesRoute from "./routes/messages.route.js";
+//import messagesRoute from "./routes/messages.route.js";
 import sessionRoute from "./server_routes/session.router.js"
 
 app.use("/",sessionRoute)
 app.use("/api/products",productRoute)
 app.use("/api/carts", cartRoute)
-app.use("/", messagesRoute)
+//app.use("/", messagesRoute)
 
 //handlebars
 import { engine } from "express-handlebars";
@@ -78,12 +78,13 @@ app.set("views",__dirname+`/views`);
 
 
 
-// route add new product
-
-    //get
-app.get("/", (req, res)=>{
-    res.sendFile(path.join(__dirname,`public`,`index.html`))
-})
+//route add new product
+// import {isAdmin} from "../utils.js"
+//     //get
+// app.get("/", isAdmin,(req, res)=>{
+    
+//     res.sendFile(path.join(__dirname,`public`,`index.html`))
+// })
 
 
 ///////////////////////////////////  set mongoose conection

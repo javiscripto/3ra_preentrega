@@ -1,12 +1,12 @@
 import { Router } from "express";
-import{getAll, getById,createProduct,updateProduct,deleteProduct} from "../server_controlers/products.controler.js"
-
+import{getAll, getById, createProduct,updateProduct,deleteProduct} from "../server_controlers/products.controler.js"
+import{isAdmin,activeSession} from "../../utils.js"
 const router= Router();
 
 
 
 //get all 
-router.get("/", getAll);
+router.get("/", activeSession, getAll);
 
 //get by id 
 router.get("/:pid",getById);
@@ -17,7 +17,9 @@ router.get("/:pid",getById);
 
 //////////////////////////// admin////////////////////////
 //create product
-router.post("/",createProduct);
+//utiliza la ruta raiz para agregar productos. Al momento de agregar pasará por el middleware isAdmin
+
+router.post("/",isAdmin,createProduct);
 
 //update Porduct
 router.put("/:pid",updateProduct);

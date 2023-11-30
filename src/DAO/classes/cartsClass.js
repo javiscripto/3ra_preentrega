@@ -31,29 +31,30 @@ import { cartModel } from "../models/carts.model.js";
     }
   }
 
-  addProduct=async(cartId,productId,quantity)=>{
-
+  addProduct = async (cartId, productId, quantity) => {
     try {
-        const cart = await cartModel.findById(cartId);
-        if(!cart)return `el carrito con id ${cartId} no existe`;
-
-        const existingProduct= cart.products.find((prod)=>prod._id==productId);
-        if(existingProduct){
-            existingProduct.quantity+=quantity;
-            console.log(`se ha agregado la cantidad de ${quantity} item(s) al producto`) 
-        }else{
-            const newProduct={product:productId, quantity:quantity};
-            cart.products.push(newProduct);
-            console.log(`se ha agregado el producto ${productId} al carrito`) 
-        };
-
-
-        await cart.save();
-        return cart
+      const cart = await cartModel.findById(cartId);
+      if (!cart) return `El carrito con id ${cartId} no existe`;
+  
+      const existingProduct = cart.products.find((prod) => prod.item.toString() === productId);
+      if (existingProduct) {
+        existingProduct.quantity += quantity;
+        console.log(`Se ha agregado la cantidad de ${quantity} item(s) al producto`);
+      } else {
+        const newProduct = { item: productId, quantity: quantity }; // Corregido aquí, cambiado de product a item
+        cart.products.push(newProduct);
+        console.log(`Se ha agregado el producto ${productId} al carrito`);
+      }
+  
+      await cart.save();
+      // Poblar la referencia correcta
+      const populatedCart = await cartModel.findById(cartId).populate("products.item").lean();
+      return populatedCart;
     } catch (error) {
-        console.error("error :", error);
+      console.error("Error:", error);
     }
-  }
+  };
+  
 
   deleteProduct=async(cartId,productId)=>{
     try {
