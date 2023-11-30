@@ -22,10 +22,10 @@ router.get("/:pid",getById);
 router.post("/",isAdmin,createProduct);
 
 //update Porduct
-router.put("/:pid",updateProduct);
+router.put("/:pid",isAdmin, updateProduct);
 
 //delete Poduct
-router.delete("/:pid", deleteProduct)
+router.delete("/:pid",isAdmin, deleteProduct)
 
 
 

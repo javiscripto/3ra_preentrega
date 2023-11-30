@@ -81,13 +81,13 @@ const initializePassport = () => {
     "github",
     new GitHubStrategy(
       {
-        clientID: "Iv1.37a3a1980a410dc9",
-        clientSecret: "acfe9f654c71cbecf4954205ace49e1336bb40c9",
+        clientID: config.GIT_HUB_ID,
+        clientSecret: config.GIT_HUB_SECRET,
         callbackURL: "http://localhost:8080/api/sessions/githubcallback",
       },
       async (accesToken, refrechToken, profile, done) => {
         try {
-          console.log(profile);
+          
           let user = await userModel.findOne({ email: profile._json.email });
           if (!user) {
 
@@ -98,7 +98,8 @@ const initializePassport = () => {
               age: 0,
               email: profile._json.email,
               password: "",
-              cart:cartUser._id
+              cart:cartUser._id,
+              role:"user"
             };
             let result = await userModel.create(newUser);
             return done(null, result);

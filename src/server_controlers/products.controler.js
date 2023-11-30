@@ -21,7 +21,7 @@ export const getAll=async(req, res)=>{
     
         const dbProducts = result.docs.map((product) => product.toObject()); // Convertir a objetos JSON
     
-        const user= req.session.user//usuario traido desde la ruta /register para usarlo en la vista products
+        const user= req.session.user
         res.render('products', {
           dbProducts,
           hasPreviousPage,
