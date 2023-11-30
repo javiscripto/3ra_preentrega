@@ -1,9 +1,12 @@
 
 
 
-<div class="products-header">
+<br class="products-header">
  <h2>Bienvenido {{user.first_name}} </h2><br>
 <h6>has accedido como {{user.role}}</h6>
+{{#if adminRole }}
+  <a href="/">agregar mas productos </a></br>
+{{/if}}
 <a href="/logout">logout</a> 
 </div>
 

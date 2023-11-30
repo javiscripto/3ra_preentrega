@@ -21,7 +21,10 @@ export const getAll=async(req, res)=>{
     
         const dbProducts = result.docs.map((product) => product.toObject()); // Convertir a objetos JSON
     
-        const user= req.session.user
+        const user= req.session.user;
+        let adminRole;
+        req.session.user.role=="admin"?adminRole=true:adminRole=false
+       
         res.render('products', {
           dbProducts,
           hasPreviousPage,
@@ -30,7 +33,8 @@ export const getAll=async(req, res)=>{
           nextPage,
           currentPage: page,
           limit,
-          user
+          user,
+          adminRole
         })
     } catch (error) {
         res.status(500).json({ result: "error", message: error.message });

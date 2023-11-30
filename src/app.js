@@ -70,10 +70,12 @@ app.use("/api/carts", cartRoute)
 //app.use("/", messagesRoute)
 
 //handlebars
+import handlebars from "express-handlebars"
 import { engine } from "express-handlebars";
 app.engine("handlebars", engine());
 app.set("view engine","handlebars")
 app.set("views",__dirname+`/views`);
+
 
 
 
