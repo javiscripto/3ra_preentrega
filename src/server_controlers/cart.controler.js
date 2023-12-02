@@ -18,7 +18,7 @@ const getById=async(req, res)=>{
     const cart = await cartService.getById(cid);
     
     const products= cart.products
-    console.log(cart)
+    //
     res.render("cart",{products,cid})
 }
 
