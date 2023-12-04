@@ -30,6 +30,7 @@ export const isUser=(req, res, next)=>{
     if(req.session.user.role!=="user"){
         res.send("solo los usuarios pueden realizar esta operacion")
     }else{
+        console.log(req.session.user.email)
         return next()
     }
 }

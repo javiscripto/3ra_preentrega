@@ -112,6 +112,20 @@ const initializePassport = () => {
       }
     )
   );
+
+
+
+
+
+  //set current route
+    passport.use("current", new localStrategy(
+      (username, password, done)=>{
+        
+      }
+    ))
+
+
+
 };
 
 export default initializePassport;

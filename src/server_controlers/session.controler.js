@@ -30,8 +30,8 @@ export const postLogin=(req, res)=>{
     if (!req.user) return res.status(400).send({ status: "error", error: "credencial invalida" })
 
 
-    const user= req.user;
-    req.session.user=user; 
+    //const user= req.user;
+    req.session.user=req.user; 
     
     
     res.redirect("/api/products")

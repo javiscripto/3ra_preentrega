@@ -23,7 +23,7 @@ export const getAll=async(req, res)=>{
     
         const user= req.session.user;
         let adminRole;
-        req.session.user.role=="admin"?adminRole=true:adminRole=false
+        user.role=="admin"?adminRole=true:adminRole=false
        
         res.render('products', {
           dbProducts,

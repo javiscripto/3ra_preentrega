@@ -1,6 +1,8 @@
 import CartsMongo from "../DAO/classes/cartsClass.js";
+import { TicketMongo } from "../DAO/classes/ticketClass.js";
 
-const cartService = new CartsMongo()
+const cartService = new CartsMongo();
+const ticketService= new TicketMongo();
 
 const createCart=async(req, res)=>{
     const newCart= await cartService.createCart();
@@ -19,6 +21,8 @@ const getById=async(req, res)=>{
     
     const products= cart.products
     //
+    console.log("info de sessions")
+    console.log(req.session)
     res.render("cart",{products,cid})
 }
 
@@ -38,4 +42,18 @@ const deleteProduct= async (req, res)=>{
     res.json(result)
 }
 
-export default{createCart,getAll,getById,addProduct,deleteProduct}
+const purchase= async(req, res)=>{
+    const cid=req.params.cid;
+    const cart= await cartService.getById(cid);
+    const products= cart.products
+   
+    let amount=0;
+    products.forEach(prod=>{
+        amount+=prod.item.price*prod.quantity
+    })
+    console.log(req.session)
+    res.json(amount)
+    
+}
+
+export default{createCart,getAll,getById,addProduct,deleteProduct, purchase}
