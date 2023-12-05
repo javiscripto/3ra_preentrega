@@ -104,7 +104,7 @@ mongoose.connect(config.MONGO_URL,{ useNewUrlParser: true })
 
 
 app.listen(port,()=>{
-    console.log(`server ok`)
+    console.log(`server running on port ${port}`)
 })
 
 

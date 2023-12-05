@@ -3,6 +3,36 @@ import productModel from "../models/product.model.js";
 class ProductsMOngo {
   constructor() {}
 
+  checkStockAndUpdate = async (products) => {
+    try {
+      let toPurchase = [];
+      let noComprados = [];
+  
+      for (const prod of products) {
+        const prodDb = await productModel.findById(prod.item._id).lean();
+        // console.log(prodDb._id, prod.item._id);
+        // console.log(prodDb.stock, prod.quantity);
+  
+        if (prodDb.stock >= prod.quantity) {
+          toPurchase.push(prod);
+  
+          const newStock = prodDb.stock - prod.quantity;
+          // console.log(newStock)
+          // await this.updateProduct(prod._id, { stock: newStock })
+        } else {
+          noComprados.push(prod.item._id);
+        }
+      }
+  
+      
+      return [toPurchase, noComprados];
+    } catch (error) {
+      console.error(`error: `, error);
+    }
+  };
+  
+
+  //routes methods
   getAll = async () => {
     try {
       const products = await productModel.find();
@@ -31,7 +61,7 @@ class ProductsMOngo {
     }
   };
 
-  updateProduct = async (productId,updatedProductData) => {
+  updateProduct = async (productId, updatedProductData) => {
     try {
       const updatedProduct = await productModel.findByIdAndUpdate(
         productId,
@@ -52,6 +82,6 @@ class ProductsMOngo {
       console.error("error", error);
     }
   };
-};
+}
 
 export default ProductsMOngo;

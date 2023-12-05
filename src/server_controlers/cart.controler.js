@@ -1,7 +1,11 @@
 import CartsMongo from "../DAO/classes/cartsClass.js";
+import userModel from "../DAO/models/users.model.js";
 import { TicketMongo } from "../DAO/classes/ticketClass.js";
+import ProductsMOngo from "../DAO/classes/productsClass.js";
 
 const cartService = new CartsMongo();
+const productService= new ProductsMOngo();
+
 const ticketService= new TicketMongo();
 
 const createCart=async(req, res)=>{
@@ -21,8 +25,8 @@ const getById=async(req, res)=>{
     
     const products= cart.products
     //
-    console.log("info de sessions")
-    console.log(req.session)
+    
+   
     res.render("cart",{products,cid})
 }
 
@@ -31,6 +35,7 @@ const addProduct= async(req, res)=>{
     const pid= req.params.pid;
     const quantity= Number(req.body.quantity)
     const result= await cartService.addProduct(cid,pid,quantity);
+    console.log(req.session)
     res.json(result)
 }
 
@@ -45,14 +50,29 @@ const deleteProduct= async (req, res)=>{
 const purchase= async(req, res)=>{
     const cid=req.params.cid;
     const cart= await cartService.getById(cid);
-    const products= cart.products
-   
+    const products= cart.products;
+    const validatedProducts=await productService.checkStockAndUpdate(products)
+    //el método checkStock devuelve un objeto con 2 arreglos
+
+    //res.json(validatedProducts[1])
+
+
+
+  
     let amount=0;
-    products.forEach(prod=>{
+    validatedProducts[0].forEach(prod=>{
         amount+=prod.item.price*prod.quantity
-    })
-    console.log(req.session)
-    res.json(amount)
+    });
+
+
+    const user= await userModel.findOne({cart:cid}).lean();
+    const data={
+        code:`${cid}`,
+        amount:amount,
+        purchaser:user.email
+    }
+    const result=await ticketService.createTicket(data)
+    res.status(201).json({comprados:result, NoComprados:validatedProducts[1]})
     
 }
 
