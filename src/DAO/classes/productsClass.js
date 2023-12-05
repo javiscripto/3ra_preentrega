@@ -17,8 +17,8 @@ class ProductsMOngo {
           toPurchase.push(prod);
   
           const newStock = prodDb.stock - prod.quantity;
-          // console.log(newStock)
-          // await this.updateProduct(prod._id, { stock: newStock })
+          
+          await this.updateProduct(prodDb._id, { stock: newStock })
         } else {
           noComprados.push(prod.item._id);
         }

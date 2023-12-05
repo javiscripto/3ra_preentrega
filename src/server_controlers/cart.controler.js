@@ -52,9 +52,8 @@ const purchase= async(req, res)=>{
     const cart= await cartService.getById(cid);
     const products= cart.products;
     const validatedProducts=await productService.checkStockAndUpdate(products)
-    //el método checkStock devuelve un objeto con 2 arreglos
-
-    //res.json(validatedProducts[1])
+    //el método checkStock devuelve un arreglo con 2 posiciones
+    //[0]productos comprados, [1]productos sin stock no agregados 
 
 
 
