@@ -4,6 +4,7 @@ import productModel from "../DAO/models/product.model.js";
 const productService=new ProductsMOngo();
 
 export const getAll=async(req, res)=>{
+    
     const page= parseInt(req.query.page)||1;
     const limit = parseInt(req.query.limit) || 10;
 
