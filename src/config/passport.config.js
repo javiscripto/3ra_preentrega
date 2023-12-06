@@ -67,7 +67,7 @@ const initializePassport = () => {
           if (!isValidPass(user, password)) {
             return done(null, false);
           }
-          console.log(user)
+          //console.log(user)
           return done(null, user);
         } catch (error) {
           return done(error);
@@ -117,10 +117,26 @@ const initializePassport = () => {
 
 
 
-  //set current route
-    passport.use("current", new localStrategy(
-      (username, password, done)=>{
-        
+  //current 
+    passport.use("current", new localStrategy( { usernameField: "email" },
+     async (username, done)=>{
+        try {
+          const user = await userModel.findOne({ email: username });
+          console.log(user)
+          if (!user) {
+
+            return done(null, false);//credenciales invalidas
+         
+           }
+         
+           return done(null, user);
+
+
+
+        } catch (error) {
+          console.error("error en la estrategia")
+          return done(error);
+        }
       }
     ))
 

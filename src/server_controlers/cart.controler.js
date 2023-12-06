@@ -35,7 +35,7 @@ const addProduct= async(req, res)=>{
     const pid= req.params.pid;
     const quantity= Number(req.body.quantity)
     const result= await cartService.addProduct(cid,pid,quantity);
-    console.log(req.session)
+    //console.log(req.session)
     res.json(result)
 }
 
